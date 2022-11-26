@@ -48,9 +48,17 @@
             app:layout_constraintEnd_toStartOf="@id/guideline2" />
     
     <com.example.neonswitch.JoyStick
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/joysStickView"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:background="@drawable/Joystick_Background"
-    />
+            app:layout_constraintBottom_toTopOf="@+id/guideline4"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"/>
+    
+    <SeekBar android:layout_width="170dp"
+             android:layout_height="70dp"
+             app:layout_constraintBottom_toTopOf="@+id/guideline4"
+             app:layout_constraintStart_toEndOf="@+id/guideline1"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

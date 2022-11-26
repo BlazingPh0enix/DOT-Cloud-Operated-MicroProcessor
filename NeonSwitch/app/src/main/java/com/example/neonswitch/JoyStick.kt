@@ -3,22 +3,27 @@ package com.example.neonswitch
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 
 class JoyStick (context: Context, attributeSet: AttributeSet): View(context, attributeSet), Runnable {
 
     var thread: Thread = Thread (this)
-    var DEFAULT_LOOP_INTERVAL : Long = 50
+    lateinit var joystickCallback: OnJoystickMoveListener
+    var DEFAULT_LOOP_INTERVAL : Int = 50
+    var loopInterval: Long = 0
     var MOVE_TOLLERANCE: Int = 10
     var xPosition: Int = 0
     var yPosition: Int = 0
     var centerX: Int = 0
     var centerY: Int = 0
+    var buttonDirection: Int = 0
 
-    lateinit var mCallBack: OnMoveListener
-    lateinit var mOnMultipleLongPressListener: OnMultipleLongPressListener
+    lateinit var onMultipleLongPressListener: OnMultipleLongPressListener
 
     init {
+        var styledAttributes: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.JoyStick)
+
         var mRunnableMultipleLongPress: Runnable = Runnable() {
             override fun run() {
                 if (mOnMultipleLongPressListener != null) {
@@ -28,8 +33,17 @@ class JoyStick (context: Context, attributeSet: AttributeSet): View(context, att
         }
     }
 
-    interface OnMoveListener {
+    interface OnJoystickMoveListener {
         fun onMove(angle: Int, strength: Int)
+    }
+
+    fun setOnJoystickMoveListener (listener: OnJoystickMoveListener) {
+        setOnJoystickMoveListener(listener, DEFAULT_LOOP_INTERVAL)
+    }
+
+    fun setOnJoyStickMoveListener (listener: OnJoystickMoveListener, repeatInterval: Int) {
+        this.joystickCallback = listener
+        this.loopInterval = repeatInterval
     }
 
     interface OnMultipleLongPressListener {
@@ -65,18 +79,63 @@ class JoyStick (context: Context, attributeSet: AttributeSet): View(context, att
         }
     }
 
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (buttonDirection < 0) {
+            xPosition = centerX
+        }
+        else {
+            if (event != null) {
+                xPosition = event.x.toInt()
+            }
+        }
+
+        if (buttonDirection > 0) {
+            yPosition = centerY
+        }
+        else {
+            if (event != null) {
+                yPosition = event.y.toInt()
+            }
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            thread.interrupt()
+
+            resetButtonPosition()
+
+            if ()
+        }
+        return true
+    }
+
+    fun resetButtonPosition() {
+        xPosition = centerX
+        yPosition = centerY
+    }
+
+    fun getButtonDirection(): Int {
+        return buttonDirection
+    }
+
+    fun getNormalizedX(): Int {
+        if (getWidth() == 0) {
+            return 50
+        }
+        return Math.round((xPosition - buttonRadius) * 100.0f / (getWidth() - buttonRadius*2))
+    }
+
     override fun run() {
         while (!Thread.interrupted()) {
             post (Runnable() {
                 fun run() {
-                    if (mCallback != null) {
-                        mCallBack.onMove(getAngle(), getStrength())
+                    if (joystickCallback != null) {
+                        joystickCallback.onMove(getAngle(), getStrength())
                     }
                 }
             })
 
             try {
-                Thread.sleep(DEFAULT_LOOP_INTERVAL)
+                Thread.sleep(loopInterval)
             }
 
             catch (exception: InterruptedException) {
