@@ -6,8 +6,8 @@
 #include <Wire.h>
 
 //Wifi password and SSid
-const char* ssid =  "ZENILION 7302";     
-const char* pass =  "683Z*6j0";
+const char* ssid =  "F.R.I.D.A.Y.";     
+const char* pass =  "WARMACHINEROX";
 
 //AWS 
 #define AWS_IOT_PUBLISH = "";
@@ -39,24 +39,24 @@ uint8_t D8=15;//right back
 //unit8_t D9;
 
 //input parameters
-float Thrust = 20;
+float Thrust = 60;
+float targetXa;
+float targetYa;
+float targetZa;
 
 //pid gains
-float pid_p_gain = 1f;
-float pid_i_gain = 1f;
-float pid_d_gain = 1f;
+float pid_p_gain = 1;
+float pid_i_gain = 1;
+float pid_d_gain = 1;
 
 float actuallPID = pid_p_gain+pid_d_gain+pid_i_gain;
 
 
 
-//Target 
-float targetX;
-float targetY;
-float targetZ;
 
-
-
+//safe g's for descent
+float safegd = 0.4;
+float timingconst = 0.3;// determines how fast we want the descent to perform
 //runs at startup
 void setup() 
 {   
@@ -81,11 +81,10 @@ void setup()
 //runs per clockCycle
 void loop() 
 {          
-  // getReadings(); 
+  getReadings(); 
   // delay(1000);
-
   delay(10000);
-  Serial.print("OK");
+  Serial.println("OK");
   throttle();
 
 }
@@ -139,7 +138,6 @@ void AWSconnect()
 
 }
 
-
 void getReadings()
 { 
   
@@ -163,38 +161,39 @@ void getReadings()
   Serial.println(temperature);
 }
 
-
-
-
 void landSeq()//on connection lost slowly decreases altitude
 { 
   sensors_event_t a, g, temp;
   mpu.getEvent(&a,&g,&temp);
+
+  float descentconst = g.gyro.z- safegd;
+  
   if(g.gyro.z == 0)
   {
-    return;
+    analogWrite(D5, 0);
+    analogWrite(D6, 0);
+    analogWrite(D7, 0);
+    analogWrite(D8, 0);
   }
-  float accreq = -0.4f;
-  if (g.gyro.z>accreq) 
+
+  if (g.gyro.z!=accreq) 
   {
-    analogWrite(D5, analogRead(D5)-0.3);
-    analogWrite(D6, analogRead(D6)-0.3);
-    analogWrite(D7, analogRead(D7)-0.3);
-    analogWrite(D8, analogRead(D8)-0.3);
+    analogWrite(D5, analogRead(D5)-timingconst*descentconst);
+    analogWrite(D6, analogRead(D6)-timingconst*descentconst);
+    analogWrite(D7, analogRead(D7)-timingconst*descentconst);
+    analogWrite(D8, analogRead(D8)-timingconst*descentconst);
   }
   landSeq();
 }
 
 void CaliberateGyroSensors()
 { 
-
   // to be done by levelling the gyro Sensor
+  //called at the starting to level gyro errors
   sensors_event_t a, g, temp;
   mpu.getEvent(&a,&g,&temp);
 
   gyroXerror= (float)g.gyro.x;
   gyroYerror= (float)g.gyro.y;
   gyroZerror= (float)g.gyro.z;
-
-
 }
