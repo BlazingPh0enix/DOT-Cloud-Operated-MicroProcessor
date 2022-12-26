@@ -50,6 +50,7 @@
     <com.example.neonswitch.JoyStick
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/Joystick_Background"/>
+            android:background="@drawable/joystick_background"
+    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

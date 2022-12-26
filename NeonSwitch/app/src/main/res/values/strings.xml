@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Neon Switch</string>
     <string name="ARM">ARM</string>
+    <string name="PITCH">PITCH</string>
+    <string name="TEMPERATURE">TEMPERATURE</string>
+    <string name="HUMIDITY">HUMIDITY</string>
+    <string name="ALTITUDE">ALTITUDE</string>
 </resources>

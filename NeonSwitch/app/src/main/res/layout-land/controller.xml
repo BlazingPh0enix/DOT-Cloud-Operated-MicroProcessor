@@ -38,27 +38,141 @@
             android:orientation="horizontal" />
 
     <Button
+            android:id="@+id/armButton"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:text="@string/ARM"
             android:textColor="@color/neon"
-            android:backgroundTint="@color/light_black"
+            android:background="@drawable/customized_button"
             app:layout_constraintStart_toEndOf="@+id/guideline1"
             app:layout_constraintTop_toBottomOf="@id/guideline3"
             app:layout_constraintEnd_toStartOf="@id/guideline2" />
     
     <com.example.neonswitch.JoyStick
-            android:id="@+id/joysStickView"
+            android:id="@+id/joyStickView"
             android:layout_width="170dp"
             android:layout_height="170dp"
-            android:background="@drawable/Joystick_Background"
+            android:background="@drawable/joystick_background"
             app:layout_constraintBottom_toTopOf="@+id/guideline4"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"/>
     
-    <SeekBar android:layout_width="170dp"
-             android:layout_height="70dp"
-             app:layout_constraintBottom_toTopOf="@+id/guideline4"
-             app:layout_constraintStart_toEndOf="@+id/guideline1"/>
+    <com.example.neonswitch.VerticalSeekbar
+            android:id="@+id/seekbar"
+            android:layout_width="170dp"
+            android:layout_height="70dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline4"
+            app:layout_constraintStart_toEndOf="@+id/guideline1"/>
+
+    <TextView
+            android:id="@+id/pitchView"
+            android:text="@string/PITCH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/rollView"
+            app:layout_constraintRight_toLeftOf="@+id/pitchValueView"
+            app:layout_constraintLeft_toRightOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/armButton"
+    />
+
+    <TextView
+            android:id="@+id/pitchValueView"
+            android:text="00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/rollView"
+            app:layout_constraintRight_toLeftOf="@+id/guideline2"
+            app:layout_constraintLeft_toRightOf="@+id/pitchView"
+            app:layout_constraintTop_toBottomOf="@+id/armButton"
+
+    />
+
+    <TextView
+            android:id="@+id/rollView"
+            android:text="@string/ROLL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/temperatureView"
+            app:layout_constraintRight_toLeftOf="@+id/rollValueView"
+            app:layout_constraintLeft_toRightOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/pitchView"
+    />
+
+    <TextView
+            android:id="@+id/rollValueView"
+            android:text="00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/temperatureValueView"
+            app:layout_constraintRight_toLeftOf="@+id/guideline2"
+            app:layout_constraintLeft_toRightOf="@+id/rollView"
+            app:layout_constraintTop_toBottomOf="@+id/pitchValueView"
+    />
+
+    <TextView
+            android:id="@+id/temperatureView"
+            android:text="@string/TEMPERATURE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/humidityView"
+            app:layout_constraintRight_toLeftOf="@+id/temperatureValueView"
+            app:layout_constraintLeft_toRightOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/rollView"
+    />
+
+    <TextView
+            android:id="@+id/temperatureValueView"
+            android:text="00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/humidityValueView"
+            app:layout_constraintRight_toLeftOf="@+id/guideline2"
+            app:layout_constraintLeft_toRightOf="@+id/temperatureView"
+            app:layout_constraintTop_toBottomOf="@+id/rollValueView"
+    />
+
+    <TextView
+            android:id="@+id/humidityView"
+            android:text="@string/HUMIDITY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/altitudeView"
+            app:layout_constraintRight_toLeftOf="@+id/humidityValueView"
+            app:layout_constraintLeft_toRightOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/temperatureView"
+    />
+
+    <TextView
+            android:id="@+id/humidityValueView"
+            android:text="00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/altitudeValueView"
+            app:layout_constraintRight_toLeftOf="@+id/guideline2"
+            app:layout_constraintLeft_toRightOf="@+id/humidityView"
+            app:layout_constraintTop_toBottomOf="@+id/temperatureValueView"
+    />
+
+    <TextView
+            android:id="@+id/altitudeView"
+            android:text="@string/ALTITUDE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/guideline4"
+            app:layout_constraintRight_toLeftOf="@+id/altitudeValueView"
+            app:layout_constraintLeft_toRightOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/humidityView"
+    />
+
+    <TextView
+            android:id="@+id/altitudeValueView"
+            android:text="00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/guideline4"
+            app:layout_constraintRight_toLeftOf="@+id/guideline2"
+            app:layout_constraintLeft_toRightOf="@+id/altitudeView"
+            app:layout_constraintTop_toBottomOf="@+id/humidityValueView"
+    />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
